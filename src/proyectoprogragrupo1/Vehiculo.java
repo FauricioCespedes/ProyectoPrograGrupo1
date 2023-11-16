@@ -15,32 +15,33 @@ public class Vehiculo {
     int numVehicle = 0;
 
     
-    public enum type{
+    public enum Type{
     SUV,
     Sedan,
     Hatchback
     }
-    public enum status{
+    
+    public enum Status{
     Disponible,
     Reservado,
     Vendido
     }
-    
+        
     public String color;
     private int engine;
     private String brand;
     private int model;
     private int miles;
-    private String type;
-    private String status;
     private int doors;
     private int weight;
     private String transmission;
     private int passenger;
+    private Status status;
+    private Type type;
     private String customer = null;
     private String seller = null;
 
-    public Vehiculo(String color, int engine, String brand, int model, int miles, String type, String status, int doors, int weight, String transmission, int passenger) {
+    public Vehiculo(String color, int engine, String brand, int model, int miles, int doors, int weight, String transmission, int passenger) {
         this.color = color;
         this.engine = engine;
         this.brand = brand;
@@ -57,112 +58,88 @@ public class Vehiculo {
    
     public Vehiculo() {
     }
-
+    
     public String getColor() {
         return color;
     }
-
     public int getEngine() {
         return engine;
     }
-
     public String getBrand() {
         return brand;
     }
-
     public int getModel() {
         return model;
     }
-
     public int getMiles() {
         return miles;
     }
-
-    public String getType() {
+    public Type getType() {
         return type;
     }
-
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
-
     public int getDoors() {
         return doors;
     }
-
     public int getWeight() {
         return weight;
     }
-
     public String getTransmission() {
         return transmission;
     }
-
     public int getPassenger() {
         return passenger;
     }
-
     public String getCustomer() {
         return customer;
     }
-
     public String getSeller() {
         return seller;
     }
-
+    
     public void setColor(String color) {
         this.color = color;
     }
-
     public void setEngine(int engine) {
         this.engine = engine;
     }
-
     public void setBrand(String brand) {
         this.brand = brand;
     }
-
     public void setModel(int model) {
         this.model = model;
     }
-
     public void setMiles(int miles) {
         this.miles = miles;
     }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public void setDoors(int doors) {
         this.doors = doors;
     }
-
     public void setWeight(int weight) {
         this.weight = weight;
     }
-
     public void setTransmission(String transmission) {
         this.transmission = transmission;
-    }
-    
+    } 
     public void setPassenger(int passenger) {
         this.passenger = passenger;
     }
-
+    public void setStatus(Status status) {
+            this.status = status;
+        }
+    public void setType(Type type) {
+            this.type = type;
+        }  
     public void setCustomer(String customer) {
         this.customer = customer;
     }
-
     public void setSeller(String seller) {
         this.seller = seller;
     }
     
-     @Override
+    @Override
     public String toString() {
         return  "Marca= "+ brand +
                 "\nModelo= " + model +
@@ -216,11 +193,46 @@ public class Vehiculo {
             vehicle[i].setPassenger(carPassenger);
  
             int carWeight = Integer.parseInt(JOptionPane.showInputDialog("Peso del auto: "));
-            vehicle[i].setWeight(carWeight);
+            vehicle[i].setWeight(carWeight); 
             
-            String carType = JOptionPane.showInputDialog(null, "Tipo (SUV, Sedan o Hatchback): ");
-            vehicle[i].setType(carType);
-       
+            int carType = Integer.parseInt(JOptionPane.showInputDialog("Disponibilidad: \n1.SUV "
+                                                                          + "\n2Sedan \n3Hatchback "));
+            switch(carType){
+                case 1:
+                    vehicle[i].setType(Type.SUV);
+                    break;
+                case 2:
+                    vehicle[i].setType(Type.Sedan);
+                    break;
+                case 3:
+                    vehicle[i].setType(Type.Hatchback);
+                    break;
+                    
+                default:
+                          JOptionPane.showMessageDialog(null,"Opción invalida");    
+                
+            }
+            
+            int carStatus = Integer.parseInt(JOptionPane.showInputDialog("Disponibilidad: \n1.Disponible "
+                                                                          + "\n2Reservado \n3Vendido "));
+            switch(carStatus){
+                case 1:
+                    vehicle[i].setStatus(Status.Disponible);
+                    break;
+                case 2:
+                    vehicle[i].setStatus(Status.Reservado);
+                    break;
+                case 3:
+                    vehicle[i].setStatus(Status.Vendido);
+                    break;
+                    
+                default:
+                          JOptionPane.showMessageDialog(null,"Opción invalida");    
+                
+            }
+
+            
+            
 
             bandera = true;
             break;
@@ -228,6 +240,8 @@ public class Vehiculo {
     }
 
     if (bandera){
+        JOptionPane.showMessageDialog(null, "tipo "+vehicle[numVehicle].getType());
+        JOptionPane.showMessageDialog(null, "estado "+vehicle[numVehicle].getStatus());
         JOptionPane.showMessageDialog(null, "Vehiculo registrado");
     }
     else {
@@ -240,11 +254,9 @@ public class Vehiculo {
         for (int i=0; i<vehicle.length; i++){
             if (vehicle[i]!= null){
                 JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
-                                                               "                INFORMACION DEL VEHICULO         \n"+
-                                                                     vehicle[i].toString()+"\n"+
-                                                               "╚═══════════════════════════════════════╝");
-                
-                
+                                                                "                INFORMACION DEL VEHICULO         \n"+
+                                                                         vehicle[i].toString()+"\n"+
+                                                                "╚═══════════════════════════════════════╝");              
             }
         }
     }
