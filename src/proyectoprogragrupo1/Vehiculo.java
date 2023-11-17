@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  * @author anchi
  */
 public class Vehiculo {
-    Vehiculo vehicle[] = new Vehiculo [15];    
+    Vehiculo vehicle[] = new Vehiculo [15];
     int numVehicle = 0;
 
     
@@ -169,6 +169,9 @@ public class Vehiculo {
             vehicle[i] = new Vehiculo();
             
             String carBrand = JOptionPane.showInputDialog(null, "Marca: ");
+            while (carBrand.isEmpty()){
+                carBrand = JOptionPane.showInputDialog(null, "Marca: ");
+            }
             vehicle[i].setBrand(carBrand);
             
             int carModel = Integer.parseInt(JOptionPane.showInputDialog("Modelo: "));
@@ -184,6 +187,9 @@ public class Vehiculo {
             vehicle[i].setTransmission(carTransmission);
             
             String carColor = JOptionPane.showInputDialog(null, "Color: ");
+            while (carColor.isEmpty()){
+                carColor = JOptionPane.showInputDialog(null, "Color: ");
+            }
             vehicle[i].setColor(carColor);
 
             int carDoors = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de puertas: "));
@@ -196,7 +202,7 @@ public class Vehiculo {
             vehicle[i].setWeight(carWeight); 
             
             int carType = Integer.parseInt(JOptionPane.showInputDialog("Disponibilidad: \n1.SUV "
-                                                                          + "\n2Sedan \n3Hatchback "));
+                                                                          + "\n2.Sedan \n3.Hatchback "));
             switch(carType){
                 case 1:
                     vehicle[i].setType(Type.SUV);
@@ -207,32 +213,10 @@ public class Vehiculo {
                 case 3:
                     vehicle[i].setType(Type.Hatchback);
                     break;
-                    
-                default:
-                          JOptionPane.showMessageDialog(null,"Opción invalida");    
-                
-            }
+            }    
             
-            int carStatus = Integer.parseInt(JOptionPane.showInputDialog("Disponibilidad: \n1.Disponible "
-                                                                          + "\n2Reservado \n3Vendido "));
-            switch(carStatus){
-                case 1:
-                    vehicle[i].setStatus(Status.Disponible);
-                    break;
-                case 2:
-                    vehicle[i].setStatus(Status.Reservado);
-                    break;
-                case 3:
-                    vehicle[i].setStatus(Status.Vendido);
-                    break;
-                    
-                default:
-                          JOptionPane.showMessageDialog(null,"Opción invalida");    
-                
-            }
+            vehicle[i].setStatus(Status.Disponible);
 
-            
-            
 
             bandera = true;
             break;
@@ -240,8 +224,6 @@ public class Vehiculo {
     }
 
     if (bandera){
-        JOptionPane.showMessageDialog(null, "tipo "+vehicle[numVehicle].getType());
-        JOptionPane.showMessageDialog(null, "estado "+vehicle[numVehicle].getStatus());
         JOptionPane.showMessageDialog(null, "Vehiculo registrado");
     }
     else {
@@ -251,14 +233,45 @@ public class Vehiculo {
     }
     
     public void showInformation(){
-        for (int i=0; i<vehicle.length; i++){
-            if (vehicle[i]!= null){
-                JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
-                                                                "                INFORMACION DEL VEHICULO         \n"+
-                                                                         vehicle[i].toString()+"\n"+
-                                                                "╚═══════════════════════════════════════╝");              
-            }
-        }
+        int statusOption;
+        statusOption= Integer.parseInt(JOptionPane.showInputDialog(null, "1.Disponibles \n2.Reservados "
+                + "\n3.Vendidos \nIngrese la opcion que desea consultar"));
+        
+       switch (statusOption){
+           case 1:
+               for (int i=0; i<vehicle.length; i++){
+                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Disponible)){
+                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
+                                                                        "                INFORMACION DEL VEHICULO         \n"+
+                                                                                 vehicle[i].toString()+"\n"+
+                                                                        "╚═══════════════════════════════════════╝");              
+                    }
+               }
+                break;
+            case 2:
+               for (int i=0; i<vehicle.length; i++){
+                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Reservado)){
+                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
+                                                                        "                INFORMACION DEL VEHICULO         \n"+
+                                                                                 vehicle[i].toString()+"\n"+
+                                                                        "╚═══════════════════════════════════════╝");              
+                    }
+               }
+            break;
+           case 3:
+               for (int i=0; i<vehicle.length; i++){
+                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Vendido)){
+                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
+                                                                        "                INFORMACION DEL VEHICULO         \n"+
+                                                                                 vehicle[i].toString()+"\n"+
+                                                                        "╚═══════════════════════════════════════╝");              
+                    }
+               }
+            break;
+               
+       
+       }
+        
     }
 }
     
