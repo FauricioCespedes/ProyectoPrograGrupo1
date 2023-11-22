@@ -4,82 +4,109 @@
  */
 package proyectoprogragrupo1;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author fauri
  */
 public class Usuario {
-    private String nombre;
-    private String apellido1;
-    private String apellido2;
-    private String identificacion;
-    private String correo;
-    private String telefono;
-    private String contra;
+    private String name;
+    private String surname1;
+    private String surname2;
+    private String identification;
+    private String mail;
+    private String phone;
+    private String password;
     
-    public Usuario(String nombre, String apellido1, String apellido2, String identificacion, String correo, String telefono, String contra){
-        setNombre(nombre);
-        setApellido1(apellido1);
-        setApellido2(apellido2);
-        setIdentificacion(identificacion);
-        setCorreo(correo);
-        setTelefono(telefono);
-        setContra(contra);
+    public Usuario(){
+        setName(JOptionPane.showInputDialog("Ingrese el nombre: "));
+        setSurname1(JOptionPane.showInputDialog("Ingrese el primer apellido: "));
+        setSurname2(JOptionPane.showInputDialog("Ingrese el segundo apellido: "));
+        setIdentification(JOptionPane.showInputDialog("Ingrese la identificación: "));
+        setMail(JOptionPane.showInputDialog("Ingrese el correo: "));
+        setPhone(JOptionPane.showInputDialog("Ingrese el telefono: "));
+        setPassword(JOptionPane.showInputDialog("Ingrese la contraseña: "));
+    }
+    
+    public boolean saveUser(){   
+        String userPath = "./usuarios.txt";
+        
+        try(FileWriter userFile = new FileWriter(userPath)){
+            userFile.write(this.toString());
+            return true;
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar usuario: " + e.getMessage());
+            return false;
+        }
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getApellido1() {
-        return apellido1;
+    public String getSurname1() {
+        return surname1;
     }
 
-    public void setApellido1(String apellido1) {
-        this.apellido1 = apellido1;
+    public void setSurname1(String surname1) {
+        this.surname1 = surname1;
     }
 
-    public String getApellido2() {
-        return apellido2;
+    public String getSurname2() {
+        return surname2;
     }
 
-    public void setApellido2(String apellido2) {
-        this.apellido2 = apellido2;
+    public void setSurname2(String surname2) {
+        this.surname2 = surname2;
     }
 
-    public String getIdentificacion() {
-        return identificacion;
+    public String getIdentification() {
+        return identification;
     }
 
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
+    public void setIdentification(String identification) {
+        this.identification = identification;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getMail() {
+        return mail;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getContra() {
-        return contra;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContra(String contra) {
-        this.contra = contra;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    @Override
+    public String toString(){
+        return "\n" + name + ", " +
+                surname1 + ", " +
+                surname2 + ", " +
+                identification + ", " +
+                mail + ", " +
+                phone + ", " +
+                password;
     }
 }

@@ -25,10 +25,10 @@ public class ProyectoPrograGrupo1 {
             while (!Access)
                 {
                     String User=JOptionPane.showInputDialog("Usuario ");
-                    if (User.equals(Config.getMasterUsername()))
+                    if (User.equals(Config.masterUsername))
                     {
                             String password=JOptionPane.showInputDialog("Digite su contraseña");
-                            if (password.equals(Config.getMasterPassword()))
+                            if (password.equals(Config.masterPassword))
                             {
                                 JOptionPane.showMessageDialog(null,"Bienvenido al sistema ");
                                 Access = true;
@@ -63,7 +63,8 @@ public class ProyectoPrograGrupo1 {
                         "\n0) Salir"));
                 switch(option){
                       case 1:
-                          JOptionPane.showMessageDialog(null,"Opción 1. Hola!!!");
+                          Usuario user = new Usuario();
+                          user.saveUser();
                           break;
                       case 2:
                         
