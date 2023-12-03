@@ -6,10 +6,6 @@ package proyectoprogragrupo1;
 
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author fauri
- */
 public class ProyectoPrograGrupo1 {
 
     /**
@@ -64,7 +60,7 @@ public class ProyectoPrograGrupo1 {
                 switch(option){
                       case 1:
                           Usuario user = new Usuario();
-                          user.saveUser();
+                          Usuario.saveUser(user);
                           break;
                       case 2:
                         

@@ -4,14 +4,13 @@
  */
 package proyectoprogragrupo1;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author fauri
- */
 public class Usuario {
     private String name;
     private String surname1;
@@ -31,15 +30,22 @@ public class Usuario {
         setPassword(JOptionPane.showInputDialog("Ingrese la contraseña: "));
     }
     
-    public boolean saveUser(){   
-        String userPath = "./usuarios.txt";
-        
-        try(FileWriter userFile = new FileWriter(userPath)){
-            userFile.write(this.toString());
-            return true;
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al guardar usuario: " + e.getMessage());
-            return false;
+    static void saveUser(Usuario user){   
+        FileWriter escritura = null;
+        try {
+            String userPath = "./usuarios.txt"; 
+            escritura = new FileWriter(userPath, true);
+            //escritura.write(user.toString());
+            escritura.write("test"); 
+            escritura.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                escritura.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -95,18 +101,35 @@ public class Usuario {
         return password;
     }
 
-    public void setPassword(String password) {
+    public boolean setPassword(String password) {
+        if (password.length() < 8){
+            JOptionPane.showMessageDialog(null, "La contrasena debe ser de minimo 8 caracteres.");
+            return false;
+        }
+        
+        int i = 0, j = 1;
+        while(j<password.length()){
+            if (password.charAt(i) == password.charAt(j)){
+                JOptionPane.showMessageDialog(null, "La contrasena no cuenta con el formato valido.");
+                return false;
+            }
+            
+            i++;
+            j++;
+        }
+        
         this.password = password;
+        return true;
     }
     
     @Override
     public String toString(){
-        return "\n" + name + ", " +
-                surname1 + ", " +
-                surname2 + ", " +
-                identification + ", " +
-                mail + ", " +
-                phone + ", " +
-                password;
+        return "\n" + this.name + ", " +
+                this.surname1 + ", " +
+                this.surname2 + ", " +
+                this.identification + ", " +
+                this.mail + ", " +
+                this.phone + ", " +
+                this.password;
     }
 }

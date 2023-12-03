@@ -6,7 +6,6 @@ package proyectoprogragrupo1;
 
 import javax.swing.JOptionPane;
 
-
 public class Login {
     public void startLogin(){
         String username = JOptionPane.showInputDialog(null, 
