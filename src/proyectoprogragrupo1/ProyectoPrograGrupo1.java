@@ -16,6 +16,7 @@ public class ProyectoPrograGrupo1 {
         
     }
      public static void menu(){
+         Vehiculo fVehic = new Vehiculo();
          //Inicio del ciclo para Inicio de sesión
          boolean Access = false;
             while (!Access)
@@ -63,12 +64,13 @@ public class ProyectoPrograGrupo1 {
                           Usuario.saveUser(user);
                           break;
                       case 2:
-                        
+                          fVehic.addVehicle(); 
                           break;
                       case 3:
                         
                           break;
                       case 4:
+                          fVehic.showInformation();
                         
                           break;
                       case 5:
