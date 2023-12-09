@@ -5,20 +5,47 @@
 package proyectoprogragrupo1;
 
 import javax.swing.JOptionPane;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Login {
-    public void startLogin(){
-        String username = JOptionPane.showInputDialog(null, 
-                "Ingrese su nombre de usuario: ");
-        String password = JOptionPane.showInputDialog(null, 
-                "Ingrese su contraseña: ");
+    public static void start(){
+        Login login = new Login();
+        boolean Access = false;
+        while (!Access){
+            String user=JOptionPane.showInputDialog("Usuario o correo electrónico:");
+            String password=JOptionPane.showInputDialog("Digite su contraseña");
         
-        
+            boolean userExists = login.validateCredentials(user, password);
+            
+            if (userExists || (user.equals(Config.masterUsername) && password.equals(Config.masterPassword))){
+                JOptionPane.showMessageDialog(null,"Bienvenido al sistema ");
+                Access = true;
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"****Usuario o Contraseña Incorrecto****"
+                        + "\n       Intente de nuevo");
+            }
+        }
     }
     
-    private boolean userExists (String username, String password) {
+    private boolean validateCredentials(String user, String password){
+        try (BufferedReader br = new BufferedReader(new FileReader("./usuarios.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] usuario = linea.split(", ");
+                
+                if(usuario != null){
+                    if (usuario[4].equals(user) && usuario[6].equals(password)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
         
-        
-        return true;
+        return false;
     }
 }

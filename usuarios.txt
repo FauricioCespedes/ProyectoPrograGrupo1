@@ -1,1 +1,2 @@
-aa
+fauricio, cespedes, gomez, 305550003, a@a.com, 12341234, fidelitas1234
+juan, asdf, asdf, afd, juan@gmail.com, asdf, 12345678

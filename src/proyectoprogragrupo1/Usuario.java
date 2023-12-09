@@ -6,9 +6,10 @@ package proyectoprogragrupo1;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.PrintWriter;
+
 import javax.swing.JOptionPane;
 
 public class Usuario {
@@ -27,25 +28,24 @@ public class Usuario {
         setIdentification(JOptionPane.showInputDialog("Ingrese la identificación: "));
         setMail(JOptionPane.showInputDialog("Ingrese el correo: "));
         setPhone(JOptionPane.showInputDialog("Ingrese el telefono: "));
-        setPassword(JOptionPane.showInputDialog("Ingrese la contraseña: "));
+        
+        boolean isValidPassword = false;
+        do {
+            isValidPassword = setPassword(JOptionPane.showInputDialog("Ingrese la contraseña: "));
+        }while(!isValidPassword);
     }
     
     static void saveUser(Usuario user){   
-        FileWriter escritura = null;
-        try {
-            String userPath = "./usuarios.txt"; 
-            escritura = new FileWriter(userPath, true);
-            //escritura.write(user.toString());
-            escritura.write("test"); 
-            escritura.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                escritura.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try (FileWriter fw = new FileWriter("./usuarios.txt", true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+
+
+            out.print(user);
+
+            System.out.println("Usuarios guardados correctamente");
+        } catch (IOException e) {
+            System.err.println("Error al guardar usuarios: " + e.getMessage());
         }
     }
 
