@@ -42,11 +42,12 @@ public class Menu {
 
                       break;
                   case 5:
-
+                     Cliente client = new Cliente();
+                     Cliente.saveClient(client);
                      break;
                   case 6:
-
-                      break;
+                     Cliente.showClients();
+                     break;
                   case 7:
 
                      break;

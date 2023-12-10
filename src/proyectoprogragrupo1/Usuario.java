@@ -4,12 +4,10 @@
  */
 package proyectoprogragrupo1;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.swing.JOptionPane;
 
 public class Usuario {
@@ -37,15 +35,14 @@ public class Usuario {
     
     static void saveUser(Usuario user){   
         try (FileWriter fw = new FileWriter("./usuarios.txt", true);
-             BufferedWriter bw = new BufferedWriter(fw);
-             PrintWriter out = new PrintWriter(bw)) {
-
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw)) {
 
             out.print(user);
 
-            System.out.println("Usuarios guardados correctamente");
+            JOptionPane.showMessageDialog(null, "Usuarios guardados correctamente");
         } catch (IOException e) {
-            System.err.println("Error al guardar usuarios: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al guardar usuarios");
         }
     }
 
@@ -124,12 +121,12 @@ public class Usuario {
     
     @Override
     public String toString(){
-        return "\n" + this.name + ", " +
+        return  this.name + ", " +
                 this.surname1 + ", " +
                 this.surname2 + ", " +
                 this.identification + ", " +
                 this.mail + ", " +
                 this.phone + ", " +
-                this.password;
+                this.password + "\n";
     }
 }

@@ -1,0 +1,4 @@
+fauricio, cliento, 234, 234, 234
+juan, asdf, asdf, asdf, asdf
+fauricio, f2, 1234, sadf, 2343
+juan, perez, 78, a@g.c, 23433
