@@ -4,6 +4,10 @@
  */
 package proyectoprogragrupo1;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.swing.JOptionPane;
 
 /**
@@ -53,10 +57,114 @@ public class Vehiculo {
         this.weight = weight;
         this.transmission = transmission;
         this.passenger = passenger;
+        
     }
 
-   
     public Vehiculo() {
+    }
+    
+    public void addVehicle () {
+        Vehiculo vehicle = new Vehiculo();
+
+        String carBrand = JOptionPane.showInputDialog(null, "Marca: ");
+        while (carBrand.isEmpty()){
+            carBrand = JOptionPane.showInputDialog(null, "Marca: ");
+        }
+        vehicle.setBrand(carBrand);
+
+        int carModel = Integer.parseInt(JOptionPane.showInputDialog("Modelo: "));
+        vehicle.setModel(carModel);            
+
+        int carEngine = Integer.parseInt(JOptionPane.showInputDialog("Motor: "));
+        vehicle.setEngine(carEngine);  
+
+        int carMiles = Integer.parseInt(JOptionPane.showInputDialog("Kilometraje: "));
+        vehicle.setMiles(carMiles);
+
+        String carTransmission = JOptionPane.showInputDialog(null, "Transmisión (Automática/Manual): ");
+        vehicle.setTransmission(carTransmission);
+
+        String carColor = JOptionPane.showInputDialog(null, "Color: ");
+        while (carColor.isEmpty()){
+            carColor = JOptionPane.showInputDialog(null, "Color: ");
+        }
+        vehicle.setColor(carColor);
+
+        int carDoors = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de puertas: "));
+        vehicle.setDoors(carDoors);
+
+        int carPassenger = Integer.parseInt(JOptionPane.showInputDialog("Capacidad de pasajeros: "));
+        vehicle.setPassenger(carPassenger);
+
+        int carWeight = Integer.parseInt(JOptionPane.showInputDialog("Peso del auto: "));
+        vehicle.setWeight(carWeight); 
+
+        int carType = Integer.parseInt(JOptionPane.showInputDialog("Disponibilidad: \n1.SUV "
+                                                                      + "\n2.Sedan \n3.Hatchback "));
+        switch(carType){
+            case 1:
+                vehicle.setType(Type.SUV);
+                break;
+            case 2:
+                vehicle.setType(Type.Sedan);
+                break;
+            case 3:
+                vehicle.setType(Type.Hatchback);
+                break;
+        }    
+
+        vehicle.setStatus(Status.Disponible);
+        
+        //Almacenamiento del vehículo en el txt
+        try (FileWriter fw = new FileWriter("./vehicles.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw)) {
+
+            out.print(vehicle);
+
+            JOptionPane.showMessageDialog(null, "Vehiculo registrado correctamente.");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar vehículo");
+        }
+    }
+    
+    public void showInformation(){
+        int statusOption;
+        statusOption= Integer.parseInt(JOptionPane.showInputDialog(null, "1.Disponibles \n2.Reservados "
+                + "\n3.Vendidos \nIngrese la opcion que desea consultar"));
+        
+        switch (statusOption){
+            case 1:
+               for (int i=0; i<vehicle.length; i++){
+                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Disponible)){
+                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
+                                                                        "                INFORMACION DEL VEHICULO         \n"+
+                                                                                 vehicle[i].info()+"\n"+
+                                                                        "╚═══════════════════════════════════════╝");              
+                    }
+               }
+               break;
+            case 2:
+               for (int i=0; i<vehicle.length; i++){
+                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Reservado)){
+                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
+                                                                        "                INFORMACION DEL VEHICULO         \n"+
+                                                                                 vehicle[i].info()+"\n"+
+                                                                        "╚═══════════════════════════════════════╝");              
+                    }
+               }
+               break;
+            case 3:
+               for (int i=0; i<vehicle.length; i++){
+                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Vendido)){
+                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
+                                                                        "                INFORMACION DEL VEHICULO         \n"+
+                                                                                 vehicle[i].info()+"\n"+
+                                                                        "╚═══════════════════════════════════════╝");              
+                    }
+               }
+               break;
+       }
     }
     
     public String getColor() {
@@ -98,7 +206,6 @@ public class Vehiculo {
     public String getSeller() {
         return seller;
     }
-    
     public void setColor(String color) {
         this.color = color;
     }
@@ -139,8 +246,7 @@ public class Vehiculo {
         this.seller = seller;
     }
     
-    @Override
-    public String toString() {
+    public String info() {
         return  "Marca= "+ brand +
                 "\nModelo= " + model +
                 "\nMotor= " + engine +
@@ -155,123 +261,21 @@ public class Vehiculo {
                 "\nCliente= " + customer +
                 "\nVendedor= " + seller;
     }
-
     
-    public void addVehicle () {
-    boolean bandera = false;
-
-    for (int i=0; i<vehicle.length; i++){
-        if(numVehicle == vehicle.length){
-            break;
-        }
-
-        if (vehicle[i] == null){
-            vehicle[i] = new Vehiculo();
-            
-            String carBrand = JOptionPane.showInputDialog(null, "Marca: ");
-            while (carBrand.isEmpty()){
-                carBrand = JOptionPane.showInputDialog(null, "Marca: ");
-            }
-            vehicle[i].setBrand(carBrand);
-            
-            int carModel = Integer.parseInt(JOptionPane.showInputDialog("Modelo: "));
-            vehicle[i].setModel(carModel);            
-
-            int carEngine = Integer.parseInt(JOptionPane.showInputDialog("Motor: "));
-            vehicle[i].setEngine(carEngine);  
-            
-            int carMiles = Integer.parseInt(JOptionPane.showInputDialog("Kilometraje: "));
-            vehicle[i].setMiles(carMiles);
-            
-            String carTransmission = JOptionPane.showInputDialog(null, "Transmisión (Automática/Manual): ");
-            vehicle[i].setTransmission(carTransmission);
-            
-            String carColor = JOptionPane.showInputDialog(null, "Color: ");
-            while (carColor.isEmpty()){
-                carColor = JOptionPane.showInputDialog(null, "Color: ");
-            }
-            vehicle[i].setColor(carColor);
-
-            int carDoors = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de puertas: "));
-            vehicle[i].setDoors(carDoors);
-            
-            int carPassenger = Integer.parseInt(JOptionPane.showInputDialog("Capacidad de pasajeros: "));
-            vehicle[i].setPassenger(carPassenger);
- 
-            int carWeight = Integer.parseInt(JOptionPane.showInputDialog("Peso del auto: "));
-            vehicle[i].setWeight(carWeight); 
-            
-            int carType = Integer.parseInt(JOptionPane.showInputDialog("Disponibilidad: \n1.SUV "
-                                                                          + "\n2.Sedan \n3.Hatchback "));
-            switch(carType){
-                case 1:
-                    vehicle[i].setType(Type.SUV);
-                    break;
-                case 2:
-                    vehicle[i].setType(Type.Sedan);
-                    break;
-                case 3:
-                    vehicle[i].setType(Type.Hatchback);
-                    break;
-            }    
-            
-            vehicle[i].setStatus(Status.Disponible);
-
-
-            bandera = true;
-            break;
-        }
-    }
-
-    if (bandera){
-        JOptionPane.showMessageDialog(null, "Vehiculo registrado");
-    }
-    else {
-        JOptionPane.showMessageDialog(null, "Ya no se cuenta con espacio disponible para registra un nuevo vehiculo");
-        }
-    
-    }
-    
-    public void showInformation(){
-        int statusOption;
-        statusOption= Integer.parseInt(JOptionPane.showInputDialog(null, "1.Disponibles \n2.Reservados "
-                + "\n3.Vendidos \nIngrese la opcion que desea consultar"));
-        
-       switch (statusOption){
-           case 1:
-               for (int i=0; i<vehicle.length; i++){
-                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Disponible)){
-                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
-                                                                        "                INFORMACION DEL VEHICULO         \n"+
-                                                                                 vehicle[i].toString()+"\n"+
-                                                                        "╚═══════════════════════════════════════╝");              
-                    }
-               }
-                break;
-            case 2:
-               for (int i=0; i<vehicle.length; i++){
-                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Reservado)){
-                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
-                                                                        "                INFORMACION DEL VEHICULO         \n"+
-                                                                                 vehicle[i].toString()+"\n"+
-                                                                        "╚═══════════════════════════════════════╝");              
-                    }
-               }
-            break;
-           case 3:
-               for (int i=0; i<vehicle.length; i++){
-                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Vendido)){
-                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
-                                                                        "                INFORMACION DEL VEHICULO         \n"+
-                                                                                 vehicle[i].toString()+"\n"+
-                                                                        "╚═══════════════════════════════════════╝");              
-                    }
-               }
-            break;
-               
-       
-       }
-        
+    @Override
+    public String toString(){
+        return  this.brand + ", " +
+                this.model + ", " +
+                this.engine + ", " +
+                this.miles + ", " +
+                this.color + ", " +
+                this.transmission + ", " +
+                this.type + ", " +
+                this.weight + ", " +
+                this.passenger + ", " +
+                this.doors + ", " +
+                this.status + ", " +
+                this.customer + ", " +
+                this.seller + "\n";
     }
 }
-    

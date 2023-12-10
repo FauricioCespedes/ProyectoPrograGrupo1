@@ -120,7 +120,7 @@ public class Cliente {
         this.numeroTelefonico = numeroTelefonico;
     }
     
-        @Override
+    @Override
     public String toString(){
         return  this.nombre + ", " +
                 this.apellidos + ", " +
