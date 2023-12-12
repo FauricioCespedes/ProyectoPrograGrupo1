@@ -11,17 +11,33 @@ import java.io.IOException;
 
 public class Login {
     public static void start(){
+        boolean Access = false;
+        while (!Access){
+            String user=JOptionPane.showInputDialog("Usuario administrador:");
+            String password=JOptionPane.showInputDialog("Digite la contraseña:");
+            
+            if (user.equals(Config.masterUsername) && password.equals(Config.masterPassword)){
+                JOptionPane.showMessageDialog(null,"Bienvenido al sistema ");
+                Access = true;
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"****Usuario o Contraseña Incorrecto****"
+                        + "\n       Intente de nuevo");
+            }
+        }
+    }
+    
+    public static void usersLogin(){
         Login login = new Login();
         boolean Access = false;
         while (!Access){
-            String user=JOptionPane.showInputDialog("Usuario o correo electrónico:");
+            String user=JOptionPane.showInputDialog("Correo electrónico del vendedor:");
             String password=JOptionPane.showInputDialog("Digite su contraseña");
         
             boolean userExists = login.validateCredentials(user, password);
             
-            if (userExists || (user.equals(Config.masterUsername) && password.equals(Config.masterPassword))){
+            if (userExists){
                 Config.nombreVendedor = user;
-                JOptionPane.showMessageDialog(null,"Bienvenido al sistema " + Config.nombreVendedor);
                 Access = true;
             }
             else{

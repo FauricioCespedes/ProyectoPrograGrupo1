@@ -188,15 +188,158 @@ public class Vehiculo {
             Vehiculo.updateVehicleTxt(vehicle);
         }
         else if (option == 2){
+            String idClient = JOptionPane.showInputDialog("Ingrese el id del cliente para la compra: ");
+            Funciones funciones = new Funciones();
+            boolean clientExists = funciones.clientExist(idClient);
             
+            if(!clientExists){
+                JOptionPane.showMessageDialog(null, "Ese cliente no existe.");
+                return;
+            }
+            
+            String idVehicle = JOptionPane.showInputDialog("Ingrese el id del vehículo para la compra: ");
+            boolean vehicleExists = funciones.vehicleExist(idVehicle);
+            
+            if(!vehicleExists){
+                JOptionPane.showMessageDialog(null, "Ese vehículo no existe.");
+                return;
+            }
+            
+            Vehiculo vehicle = new Vehiculo();
+            vehicle = vehicle.getVehicleById(idVehicle);
+            
+            if (vehicle == null){
+                return;
+            }
+            
+            vehicle.setCustomer(idClient);
+            vehicle.setSeller(Config.nombreVendedor);
+            vehicle.setStatus(Status.Vendido);
+            
+            option = 0;
+            do{
+                option = Integer.parseInt(JOptionPane.showInputDialog("¿Está seguro que desea comprarlo?\n1. Sí\n2. No"));
+            }while(option < 1 || option > 2);
+            
+            if (option == 2){
+                JOptionPane.showMessageDialog(null, "Compra cancelada exitosamente.");
+                vehicle.setCustomer(null);
+                vehicle.setSeller(null);
+                vehicle.setStatus(Status.Disponible);
+                return;
+            }
+            
+            Vehiculo.updateVehicleTxt(vehicle);
         }
         else{
+            Funciones funciones = new Funciones();
             
+            String idVehicle = JOptionPane.showInputDialog("Ingrese el id del vehículo para la modificarlo: ");
+            boolean vehicleExists = funciones.vehicleExist(idVehicle);
+            
+            if(!vehicleExists){
+                JOptionPane.showMessageDialog(null, "Ese vehículo no existe.");
+                return;
+            }
+            
+            Vehiculo vehicle = new Vehiculo();
+            
+            vehicle.setId2(idVehicle);
+            
+            String carBrand = JOptionPane.showInputDialog(null, "Marca: ");
+            while (carBrand.isEmpty()){
+                carBrand = JOptionPane.showInputDialog(null, "Marca: ");
+            }
+            vehicle.setBrand(carBrand);
+
+            int carModel = Integer.parseInt(JOptionPane.showInputDialog("Modelo: "));
+            vehicle.setModel(carModel);            
+
+            int carEngine = Integer.parseInt(JOptionPane.showInputDialog("Motor: "));
+            vehicle.setEngine(carEngine);  
+
+            int carMiles = Integer.parseInt(JOptionPane.showInputDialog("Kilometraje: "));
+            vehicle.setMiles(carMiles);
+
+            String carTransmission = JOptionPane.showInputDialog(null, "Transmisión (Automática/Manual): ");
+            vehicle.setTransmission(carTransmission);
+
+            String carColor = JOptionPane.showInputDialog(null, "Color: ");
+            while (carColor.isEmpty()){
+                carColor = JOptionPane.showInputDialog(null, "Color: ");
+            }
+            vehicle.setColor(carColor);
+
+            int carDoors = Integer.parseInt(JOptionPane.showInputDialog("Cantidad de puertas: "));
+            vehicle.setDoors(carDoors);
+
+            int carPassenger = Integer.parseInt(JOptionPane.showInputDialog("Capacidad de pasajeros: "));
+            vehicle.setPassenger(carPassenger);
+
+            int carWeight = Integer.parseInt(JOptionPane.showInputDialog("Peso del auto: "));
+            vehicle.setWeight(carWeight); 
+
+            int carType = Integer.parseInt(JOptionPane.showInputDialog("Disponibilidad: \n1.SUV "
+                                                                          + "\n2.Sedan \n3.Hatchback "));
+            switch(carType){
+                case 1:
+                    vehicle.setType(Type.SUV);
+                    break;
+                case 2:
+                    vehicle.setType(Type.Sedan);
+                    break;
+                case 3:
+                    vehicle.setType(Type.Hatchback);
+                    break;
+            }    
+
+            vehicle.setStatus(Status.Disponible);
+            
+            option = 0;
+            do{
+                option = Integer.parseInt(JOptionPane.showInputDialog("¿Está seguro que desea modificarlo?\n1. Sí\n2. No"));
+            }while(option < 1 || option > 2);
+            
+            if (option == 2){
+                JOptionPane.showMessageDialog(null, "Cancelado exitosamente.");
+                vehicle.setCustomer(null);
+                vehicle.setSeller(null);
+                vehicle.setStatus(Status.Disponible);
+                return;
+            }
+            
+            Vehiculo.updateVehicleTxt(vehicle);
         }
     }
     
-    private static void updateVehicleTxt(Vehiculo vehicle){
-        JOptionPane.showMessageDialog(null, vehicle.toString());
+    private static void updateVehicleTxt(Vehiculo newVehicle){
+        String fileText = "";
+        
+        try (BufferedReader br = new BufferedReader(new FileReader("./vehicles.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] vehicle = linea.split(", ");
+                
+                if(vehicle[0].equals(newVehicle.getId())){
+                    linea = newVehicle.toString();
+                }
+                
+                fileText += linea + "\n";
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo");
+        }
+        
+        try (FileWriter fw = new FileWriter("./vehicles.txt", false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw)) {
+
+            out.print(fileText);
+
+            JOptionPane.showMessageDialog(null, "Cambios realizados correctamente.");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar vehículo");
+        }
     }
     
     public Vehiculo getVehicleById(String id){
@@ -398,5 +541,18 @@ public class Vehiculo {
                 this.status + ", " +
                 this.customer + ", " +
                 this.seller + "\n";
+    }
+    
+    //Para los reportes
+    public static int countSoldVehicles(){
+        return 0;
+    }
+    
+    public static int countReservedVehicles(){
+        return 0;
+    }
+        
+    public static int countAvailableVehicles(){
+        return 0;
     }
 }
