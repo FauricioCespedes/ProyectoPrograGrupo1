@@ -35,7 +35,8 @@ public class Menu {
                       fVehic.addVehicle(); 
                       break;
                   case 3:
-                      //Actualizar vehículos
+                      //llamar a login usuarios
+                      fVehic.updateVehicle();
                       break;
                   case 4:
                       fVehic.showInformation();

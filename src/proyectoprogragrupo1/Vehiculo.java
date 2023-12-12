@@ -4,7 +4,9 @@
  */
 package proyectoprogragrupo1;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,7 +33,8 @@ public class Vehiculo {
     Vendido
     }
         
-    public String color;
+    private String id;
+    private String color;
     private int engine;
     private String brand;
     private int model;
@@ -65,6 +68,11 @@ public class Vehiculo {
     
     public void addVehicle () {
         Vehiculo vehicle = new Vehiculo();
+        
+        boolean isValidId = false;
+        do {
+            isValidId = vehicle.setId(JOptionPane.showInputDialog("Ingrese el id del vehículo: "));
+        }while(!isValidId);
 
         String carBrand = JOptionPane.showInputDialog(null, "Marca: ");
         while (carBrand.isEmpty()){
@@ -128,43 +136,155 @@ public class Vehiculo {
         }
     }
     
-    public void showInformation(){
-        int statusOption;
-        statusOption= Integer.parseInt(JOptionPane.showInputDialog(null, "1.Disponibles \n2.Reservados "
-                + "\n3.Vendidos \nIngrese la opcion que desea consultar"));
+    public void updateVehicle(){
+        int option = 0;
         
-        switch (statusOption){
-            case 1:
-               for (int i=0; i<vehicle.length; i++){
-                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Disponible)){
-                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
-                                                                        "                INFORMACION DEL VEHICULO         \n"+
-                                                                                 vehicle[i].info()+"\n"+
-                                                                        "╚═══════════════════════════════════════╝");              
+        do{
+            option = Integer.parseInt(JOptionPane.showInputDialog("1. Deseo Reservar Vehículo\n2. Deseo Comprar Vehículo\n3. Deseo Actualizar Vehículo"));
+        }while(option < 1 || option > 3);
+        
+        if (option == 1){
+            String idClient = JOptionPane.showInputDialog("Ingrese el id del cliente para la reserva: ");
+            Funciones funciones = new Funciones();
+            boolean clientExists = funciones.clientExist(idClient);
+            
+            if(!clientExists){
+                JOptionPane.showMessageDialog(null, "Ese cliente no existe.");
+                return;
+            }
+            
+            String idVehicle = JOptionPane.showInputDialog("Ingrese el id del vehículo para la reserva: ");
+            boolean vehicleExists = funciones.vehicleExist(idVehicle);
+            
+            if(!vehicleExists){
+                JOptionPane.showMessageDialog(null, "Ese vehículo no existe.");
+                return;
+            }
+            
+            Vehiculo vehicle = new Vehiculo();
+            vehicle = vehicle.getVehicleById(idVehicle);
+            
+            if (vehicle == null){
+                return;
+            }
+            
+            vehicle.setCustomer(idClient);
+            vehicle.setSeller(Config.nombreVendedor);
+            vehicle.setStatus(Status.Reservado);
+            
+            option = 0;
+            do{
+                option = Integer.parseInt(JOptionPane.showInputDialog("¿Está seguro que desea reservarlo?\n1. Sí\n2. No"));
+            }while(option < 1 || option > 2);
+            
+            if (option == 2){
+                JOptionPane.showMessageDialog(null, "Reserva cancelada exitosamente.");
+                vehicle.setCustomer(null);
+                vehicle.setSeller(null);
+                vehicle.setStatus(Status.Disponible);
+                return;
+            }
+            
+            Vehiculo.updateVehicleTxt(vehicle);
+        }
+        else if (option == 2){
+            
+        }
+        else{
+            
+        }
+    }
+    
+    private static void updateVehicleTxt(Vehiculo vehicle){
+        JOptionPane.showMessageDialog(null, vehicle.toString());
+    }
+    
+    public Vehiculo getVehicleById(String id){
+        Vehiculo vehicle = new Vehiculo();
+        
+        try (BufferedReader br = new BufferedReader(new FileReader("./vehicles.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] stringVehicle = linea.split(", ");
+                
+                if(stringVehicle != null){
+                    vehicle.setId2(stringVehicle[0]);
+                    vehicle.setBrand(stringVehicle[1]);
+                    vehicle.setModel(Integer.parseInt(stringVehicle[2]));
+                    vehicle.setEngine(Integer.parseInt(stringVehicle[3]));
+                    vehicle.setMiles(Integer.parseInt(stringVehicle[4]));
+                    vehicle.setColor(stringVehicle[5]); 
+                    vehicle.setTransmission(stringVehicle[6]);
+                    vehicle.setWeight(Integer.parseInt(stringVehicle[8]));
+                    vehicle.setPassenger(Integer.parseInt(stringVehicle[9]));
+                    vehicle.setDoors(Integer.parseInt(stringVehicle[10]));
+
+                    
+                    if("SUV".equals(stringVehicle[7])){
+                        vehicle.setType(Type.SUV);
                     }
-               }
-               break;
-            case 2:
-               for (int i=0; i<vehicle.length; i++){
-                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Reservado)){
-                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
-                                                                        "                INFORMACION DEL VEHICULO         \n"+
-                                                                                 vehicle[i].info()+"\n"+
-                                                                        "╚═══════════════════════════════════════╝");              
+                    else if("Sedan".equals(stringVehicle[7])){
+                        vehicle.setType(Type.Sedan);
                     }
-               }
-               break;
-            case 3:
-               for (int i=0; i<vehicle.length; i++){
-                    if (vehicle[i]!= null && vehicle[i].getStatus().equals(Status.Vendido)){
-                        JOptionPane.showMessageDialog(null,"╔═══════════════════════════════════════╗\n"+
-                                                                        "                INFORMACION DEL VEHICULO         \n"+
-                                                                                 vehicle[i].info()+"\n"+
-                                                                        "╚═══════════════════════════════════════╝");              
+                    else if("Hatchback".equals(stringVehicle[7])){
+                        vehicle.setType(Type.Hatchback);
                     }
-               }
-               break;
-       }
+                    
+                    if(!"Disponible".equals(stringVehicle[11])){
+                        JOptionPane.showMessageDialog(null, "El vehículo no está disponible.");
+                        return null;
+                    }
+                    vehicle.setStatus(Status.Disponible);
+                    
+                    return vehicle;
+                }
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo");
+        }
+        
+        return null;
+    }
+    
+    public void showInformation(){
+        String vehicles = "--------- Vehículos ---------\n";
+        
+        try (BufferedReader br = new BufferedReader(new FileReader("./vehicles.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                vehicles += linea + "\n";
+            }
+            
+            JOptionPane.showMessageDialog(null, vehicles);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo");
+        }
+    }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public boolean setId(String id) {
+        try (BufferedReader br = new BufferedReader(new FileReader("./vehicles.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] vehicle = linea.split(", ");
+                if (vehicle[0].equals(id)){
+                    JOptionPane.showMessageDialog(null, "El vehículo ya fue registrado.");
+                    return false;
+                }
+            }
+            this.id = id;
+            return true;
+            
+        } catch (IOException e) {
+            return false;
+        }
+    }
+    
+    public void setId2(String id) {
+        this.id = id;
     }
     
     public String getColor() {
@@ -264,7 +384,8 @@ public class Vehiculo {
     
     @Override
     public String toString(){
-        return  this.brand + ", " +
+        return  this.id + ", " +
+                this.brand + ", " +
                 this.model + ", " +
                 this.engine + ", " +
                 this.miles + ", " +

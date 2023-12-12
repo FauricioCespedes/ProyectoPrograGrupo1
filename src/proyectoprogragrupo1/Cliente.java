@@ -92,7 +92,7 @@ public class Cliente {
             while ((linea = br.readLine()) != null) {
                 String[] client = linea.split(", ");
                 if (client[2].equals(identificacion)){
-                    JOptionPane.showMessageDialog(null, "La cédula que ingresó ya existe, utilice otra");
+                   JOptionPane.showMessageDialog(null, "La cédula que ingresó ya existe, utilice otra");
                     return false;
                 }
             }

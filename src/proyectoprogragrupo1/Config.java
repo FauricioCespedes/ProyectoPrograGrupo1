@@ -14,6 +14,8 @@ public class Config {
     static String masterUsername = "master";
     static String masterPassword = "1234";
     
+    static String nombreVendedor = "";
+    
     public void showCompanyData (){
         JOptionPane.showMessageDialog(null,
                 "\nNombre de la empresa: " + companyName +

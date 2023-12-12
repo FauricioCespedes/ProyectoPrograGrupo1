@@ -20,7 +20,8 @@ public class Login {
             boolean userExists = login.validateCredentials(user, password);
             
             if (userExists || (user.equals(Config.masterUsername) && password.equals(Config.masterPassword))){
-                JOptionPane.showMessageDialog(null,"Bienvenido al sistema ");
+                Config.nombreVendedor = user;
+                JOptionPane.showMessageDialog(null,"Bienvenido al sistema " + Config.nombreVendedor);
                 Access = true;
             }
             else{

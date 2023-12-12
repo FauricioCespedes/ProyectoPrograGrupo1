@@ -1,1 +1,1 @@
-nissan, 1, 2, 300, Gris, Manual, Sedan, 500, 5, 4, Disponible, null, null
+1, Nissan, 1980, 600, 300, Negro, Manual, Sedan, 150, 5, 4, Disponible, null, null
