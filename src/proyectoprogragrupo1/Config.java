@@ -12,7 +12,7 @@ public class Config {
     static String address = "Cartago, Cartago, Occidental";
     
     static String masterUsername = "master";
-    static String masterPassword = "1234";
+    static String masterPassword = "12345678";
     
     static String nombreVendedor = "";
     

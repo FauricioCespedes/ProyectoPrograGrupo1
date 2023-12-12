@@ -12,18 +12,23 @@ import javax.swing.JOptionPane;
  */
 public class Reporte {
     public static void menu(){
-        int choose = Integer.parseInt(JOptionPane.showInputDialog(null, 
-        "\n1) Cantidad total de autos venditos, reservados y disponibles" +
-        "\n2) Cantidad de clientes registrados, clientes que compraron un vehículo, clientes que reservaron un vehículo." +
-        "\n3) Top 3 de clientes que más compraron vehículos" +
-        "\n4) Cantidad de vehículos vendidos por vendedor" +
-        "\n5) Cantidad de vehículos reservados por vendedor" +                   
-        "\n6) Salir"));
+        int choose = 0;
+        
+        do{
+            choose = Integer.parseInt(JOptionPane.showInputDialog(null, 
+            "\n1) Cantidad total de autos vendidos, reservados y disponibles" +
+            "\n2) Cantidad de clientes registrados, clientes que compraron un vehículo, clientes que reservaron un vehículo." +
+            "\n3) Top 3 de clientes que más compraron vehículos" +
+            "\n4) Cantidad de vehículos vendidos por vendedor" +
+            "\n5) Cantidad de vehículos reservados por vendedor" +                   
+            "\n6) Salir"));
+        }while(choose < 1 || choose > 6);
+        
         switch (choose){
             case 1:
-                int totalSold = Vehiculo.countSoldVehicles();
-                int totalReserved = Vehiculo.countReservedVehicles();
-                int totalAvialable = Vehiculo.countAvailableVehicles();
+                int totalSold = Vehiculo.countVehicles()[0];
+                int totalReserved = Vehiculo.countVehicles()[1];
+                int totalAvialable = Vehiculo.countVehicles()[2];
                 JOptionPane.showMessageDialog(null,
                 "Cantidad total de autos vendidos: " + totalSold
               + "\nCantidad total de autos reservados: " + totalReserved
@@ -46,7 +51,6 @@ public class Reporte {
 
              break;
             case 6:
-
              break;
         }
     }

@@ -1,3 +1,1 @@
-fauricio, cespedes, gomez, 305550003, a@a.com, 12341234, fidelitas1234
-juan, asdf, asdf, afd, juan@gmail.com, asdf, 12345678
-asdf, moramora, asdf, asdf, asdf, asdf, asdfasdfasdf, asdfljk, asdlfjk, , asldfj, lñaskjdf, 12341234123
+Fauricio, Cespedes, Gomez, 305550003, test@azzacar.com, 9999-9999, abcd1234

@@ -1,5 +1,2 @@
-1, Toyota, 1990, 200, 300, Verde, Manual, Hatchback, 150, 5, 4, Disponible, null, null
-2, Toyota, 2005, 500, 300, Manual, Griss, Sedan, 160, 5, 4, Disponible, null, null
-
-3, Nissan, 2007, 140, 400, Rojo, Manual, Hatchback, 200, 5, 4, Disponible, null, null
-
+1, Toyota, 2010, 400, 300, Verde, Manual, Sedan, 150, 5, 4, Vendido, 302220002, test@azzacar.co
+2, Nissan, 1990, 200, 400, Rojo, Manual, SUV, 155, 4, 4, Disponible, null, null

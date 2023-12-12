@@ -322,6 +322,7 @@ public class Vehiculo {
                 
                 if(vehicle[0].equals(newVehicle.getId())){
                     linea = newVehicle.toString();
+                    linea = linea.substring(0, linea.length() - 2);
                 }
                 
                 fileText += linea + "\n";
@@ -544,15 +545,35 @@ public class Vehiculo {
     }
     
     //Para los reportes
-    public static int countSoldVehicles(){
-        return 0;
-    }
-    
-    public static int countReservedVehicles(){
-        return 0;
-    }
+    public static int[] countVehicles(){
+        int[] vehicleCounters = new int[3];
+        int totalSold = 0;
+        int totalReserved = 0;
+        int totalAvialable = 0;
         
-    public static int countAvailableVehicles(){
-        return 0;
+        try (BufferedReader br = new BufferedReader(new FileReader("./vehicles.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] vehicle = linea.split(", ");
+                
+                if ("Vendido".equals(vehicle[11])){
+                    totalSold++;
+                }
+                else if ("Reservado".equals(vehicle[11])){
+                    totalReserved++;
+                }
+                else if ("Disponible".equals(vehicle[11])){
+                    totalAvialable++;
+                }
+            }
+            vehicleCounters[0] = totalSold;
+            vehicleCounters[1] = totalReserved;
+            vehicleCounters[2] = totalAvialable;
+            
+        } catch (IOException e) {
+            return vehicleCounters;
+        }
+        
+        return vehicleCounters;
     }
 }
